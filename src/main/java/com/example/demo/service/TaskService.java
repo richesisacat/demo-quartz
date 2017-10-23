@@ -11,6 +11,7 @@ import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -83,10 +84,11 @@ public class TaskService {
    */
   public void addJob(final TaskInfo info) {
 
-    final String jobName = info.jobClass();
+    final String jobName = info.getJobName();
     final String jobGroup = info.getJobGroup();
     final String cronExpression = info.getCronExpression();
     final String jobDescription = info.getJobDescription();
+    final JobDataMap jobDataMap = info.getJobDataMap() == null ? new JobDataMap() : info.getJobDataMap();
     final String createTime = new DateTime().toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
 
     try {
@@ -107,7 +109,7 @@ public class TaskService {
       final JobKey jobKey = JobKey.jobKey(jobName, jobGroup);
       final JobDetail jobDetail = JobBuilder.newJob(clazz).withIdentity(jobKey)
           .withDescription(jobDescription)
-          .usingJobData(info.getJobDataMap())
+          .usingJobData(jobDataMap)
           .build();
 
       scheduler.scheduleJob(jobDetail, cronTrigger);
@@ -120,10 +122,11 @@ public class TaskService {
    * 修改定时任务.
    */
   public void edit(final TaskInfo info) {
-    final String jobName = info.jobClass();
+    final String jobName = info.getJobName();
     final String jobGroup = info.getJobGroup();
     final String cronExpression = info.getCronExpression();
     final String jobDescription = info.getJobDescription();
+    final JobDataMap jobDataMap = info.getJobDataMap() == null ? new JobDataMap() : info.getJobDataMap();
     final String createTime = new DateTime().toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
 
     try {
@@ -141,7 +144,7 @@ public class TaskService {
       final JobKey jobKey = new JobKey(jobName, jobGroup);
       final JobBuilder jobBuilder = scheduler.getJobDetail(jobKey).getJobBuilder();
 
-      final JobDetail jobDetail = jobBuilder.usingJobData(info.getJobDataMap()).withDescription(jobDescription).build();
+      final JobDetail jobDetail = jobBuilder.usingJobData(jobDataMap).withDescription(jobDescription).build();
 
       final Set<Trigger> triggerSet = new HashSet<>();
       triggerSet.add(cronTrigger);

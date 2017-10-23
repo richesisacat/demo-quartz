@@ -39,8 +39,4 @@ public class TaskInfo {
 
   @ApiModelProperty("创建时间 新建编辑时忽略此项")
   private String createTime;
-
-  public String jobClass() {
-    return jobName == null ? null : jobName.split("#")[0];
-  }
 }
