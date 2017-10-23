@@ -1,5 +1,5 @@
-###一、基于内存管理定时任务
-####1、添加Maven依赖
+### 一、基于内存管理定时任务
+#### 1、添加Maven依赖
 
 ```
 <dependency>
@@ -12,7 +12,7 @@
     <artifactId>spring-context-support</artifactId>
 </dependency>
 ```
-####2、Spring Boot整合
+#### 2、Spring Boot整合
 
 ```
 @Configuration
@@ -75,7 +75,7 @@ public class SpringJobFactory extends AdaptableJobFactory {
   }
 }
 ```
-####3、定义Service方法管理任务
+#### 3、定义Service方法管理任务
 
 ```
 @Service
@@ -257,7 +257,7 @@ public class TaskService {
   }
 }
 ```
-####4、任务实体类
+#### 4、任务实体类
 
 ```
 @Builder
@@ -295,7 +295,7 @@ public class TaskInfo {
   }
 }
 ```
-####5、一个具体任务的实例
+#### 5、一个具体任务的实例
 
 ```
 @Slf4j
@@ -308,10 +308,10 @@ public class ScheduledTest implements Job {
 }
 ```
 注意：JobName传的是具体任务的包名+类名，service中反射取到具体类
-###二、基于数据库的集群模式
-####1、修改Config
+### 二、基于数据库的集群模式
+#### 1、修改Config
 放开前一部的两行注释
-####2、增加配置文件quartz.properties
+#### 2、增加配置文件quartz.properties
 
 ```
 #============================================================================
@@ -336,10 +336,10 @@ org.quartz.jobStore.driverDelegateClass=org.quartz.impl.jdbcjobstore.StdJDBCDele
 org.quartz.jobStore.tablePrefix=QRTZ_
 org.quartz.jobStore.isClustered=false
 ```
-####3、数据库需要建11张表
+#### 3、数据库需要建11张表
 建表语句在quartz的jar包中：\docs\dbTables目录下
 Jar包下载：http://www.quartz-scheduler.org/
-####4、数据源配置application.yml
+#### 4、数据源配置application.yml
 spring:
   datasource:
       driverClass: com.mysql.jdbc.Driver
